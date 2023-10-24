@@ -93,6 +93,7 @@ public class Lobby : MonoBehaviourPunCallbacks
         print("Number of rooms:" + roomList.Count);
         availableRooms = roomList;
         UpdateRoomList();
+        if (roomList.Count > 0) InputPlayerName.GetComponent<TMP_InputField>().text = "Player 2";
     }
 
     private void UpdateRoomList()
@@ -108,6 +109,23 @@ public class Lobby : MonoBehaviourPunCallbacks
 
             buttonCallback = () => this.OnClickJoinRoom(roomInfo.Name);
             rowRoom.transform.Find("BtnJoin").GetComponent<Button>().onClick.AddListener(buttonCallback);
+
+        }
+    }
+
+    public override void OnJoinedRoom()
+    {
+        PanelLobby.SetActive(false);
+        PanelWaitingForPlayers.SetActive(true);
+        print("OnJoinedRoom");
+    }
+
+    public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
+    {
+        if(PhotonNetwork.CurrentRoom.PlayerCount == 2)
+        {
+            //load the scene called MainGame - make sure that it is added to the build settings
+            PhotonNetwork.LoadLevel("MainGame");
 
         }
     }
