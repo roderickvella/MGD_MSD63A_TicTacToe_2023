@@ -49,7 +49,10 @@ public class CanvsManager : MonoBehaviour
     {           
         PointerEventData bEvent = (PointerEventData)baseEvent;
         print(bEvent.pointerClick.gameObject.name);
-        gameManager.SelectBoardPiece(bEvent.pointerClick.gameObject);
+        //gameManager.SelectBoardPiece(bEvent.pointerClick.gameObject);
+        GameObject.Find("Scripts").GetComponent<NetworkManager>()
+            .NotifySelectBoardPiece(bEvent.pointerClick.gameObject);
+
         
     }
 
